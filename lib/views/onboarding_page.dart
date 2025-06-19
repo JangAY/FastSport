@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'login_page.dart'; // Import login page
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -9,44 +10,51 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
   int _currentPage = 0;
 
   final List<_OnboardingContent> onboardingContents = [
     _OnboardingContent(
       image: 'assets/images/surfing.png',
-      title: 'Selamat Datang di FastSport',
-      subtitle: 'Nikmati berita olahraga favorit dari seluruh dunia, langsung di genggamanmu.',
+      title: 'Selamat Datang di FastNews',
+      subtitle:
+          'Nikmati berita olahraga favorit dari seluruh dunia, langsung di genggamanmu.',
     ),
     _OnboardingContent(
       image: 'assets/images/basket.png',
       title: 'Update Setiap Hari',
-      subtitle: 'Dapatkan update skor, jadwal pertandingan, dan berita eksklusif setiap hari.',
+      subtitle:
+          'Dapatkan update skor, jadwal pertandingan, dan berita eksklusif setiap hari.',
     ),
     _OnboardingContent(
       image: 'assets/images/tennis.png',
       title: 'Berita yang Kamu Butuhkan',
-      subtitle: 'FastSport menyajikan informasi yang relevan, cepat, dan sesuai minatmu.',
+      subtitle:
+          'FastNews menyajikan informasi yang relevan, cepat, dan sesuai minatmu.',
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _currentPage == -1
-          ? _buildSplashScreen()
-          : PageView.builder(
-              controller: _pageController,
-              itemCount: onboardingContents.length,
-              onPageChanged: (int index) {
-                setState(() {
-                  _currentPage = index;
-                });
-              },
-              itemBuilder: (context, index) {
-                return _buildOnboardingScreen(onboardingContents[index], index);
-              },
-            ),
+      body:
+          _currentPage == -1
+              ? _buildSplashScreen()
+              : PageView.builder(
+                controller: _pageController,
+                itemCount: onboardingContents.length,
+                onPageChanged: (int index) {
+                  setState(() {
+                    _currentPage = index;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  return _buildOnboardingScreen(
+                    onboardingContents[index],
+                    index,
+                  );
+                },
+              ),
     );
   }
 
@@ -68,10 +76,17 @@ class _OnboardingPageState extends State<OnboardingPage> {
     });
   }
 
+  void _navigateToLogin() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
+  }
+
   Widget _buildSplashScreen() {
     return Center(
       child: Image.asset(
-        'assets/images/logo_FastSport.png',
+        'assets/images/logo_FastNews.png',
         width: 500,
         height: 500,
       ),
@@ -85,10 +100,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: 60),
-          Image.asset(
-            content.image,
-            height: 280,
-          ),
+          Image.asset(content.image, height: 280),
           const SizedBox(height: 40),
           Text(
             content.title,
@@ -102,10 +114,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
           Text(
             content.subtitle,
             textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              fontSize: 14,
-              color: Colors.grey[600],
-            ),
+            style: GoogleFonts.poppins(fontSize: 14, color: Colors.grey[600]),
           ),
           const SizedBox(height: 60),
           Row(
@@ -129,11 +138,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
             children: [
               TextButton(
                 onPressed: () {
-                  // Bisa diarahkan ke login atau home
+                  // Skip langsung ke login page
+                  _navigateToLogin();
                 },
                 child: Text(
                   'Skip',
-                  style: GoogleFonts.poppins(fontSize: 14),
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    color: Colors.grey[600],
+                  ),
                 ),
               ),
               TextButton(
@@ -144,12 +157,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       curve: Curves.easeInOut,
                     );
                   } else {
-                    // Navigasi ke halaman utama
+                    // Navigasi ke login page di halaman terakhir
+                    _navigateToLogin();
                   }
                 },
                 child: Text(
-                  'Next',
-                  style: GoogleFonts.poppins(fontSize: 14),
+                  index == onboardingContents.length - 1
+                      ? 'Get Started'
+                      : 'Next',
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
                 ),
               ),
             ],
