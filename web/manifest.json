@@ -1,6 +1,6 @@
 {
-    "name": "fastsport",
-    "short_name": "fastsport",
+    "name": "fastnews",
+    "short_name": "fastnews",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

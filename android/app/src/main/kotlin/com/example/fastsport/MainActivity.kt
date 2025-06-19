@@ -1,4 +1,4 @@
-package com.example.fastsport
+package com.example.fastnews
 
 import io.flutter.embedding.android.FlutterActivity
 

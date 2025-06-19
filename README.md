@@ -1,4 +1,4 @@
-# fastsport
+# fastnews
 
 A new Flutter project.
 
